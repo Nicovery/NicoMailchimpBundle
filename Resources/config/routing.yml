@@ -1,0 +1,3 @@
+save_block_newsletter:
+    path:     /insert-email-to-mail-chimp
+    defaults: { _controller: NicoMailchimpBundle:Mailchimp:newsletterBlock }

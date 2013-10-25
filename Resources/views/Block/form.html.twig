@@ -1,0 +1,63 @@
+{% extends sonata_block.templates.block_base %}
+{% block block %}
+    <form id="form__mailchimp" action="{{ path('save_block_newsletter') }}" method="post" {{ form_enctype(form__mailchimp) }} class="form nico-mailchimp-form form-inline">
+    	   <span>NEWSLETTER : </span>
+          {{ form_widget(form__mailchimp.email,{'attr':{'placeholder':'email','class':'newsletter-field'}}) }}
+          {{ form_rest(form__mailchimp) }}
+          <input type="submit" class="bouton-valider" >
+    </form>
+	<div class="modal hide fade response-newsletter">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3>Inscription Newsletter</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p class="response-action"></p>
+	  </div>
+	</div>
+
+	<script>
+	$(document).ready(function() {
+		$('#form__mailchimp').on('submit',function(e){
+			e.preventDefault();
+			$form = $(e.currentTarget);
+			$.ajax({
+		       url : $form.attr('action'),
+		       type : 'POST',
+		       dataType : 'text', 
+		       data:$form.serialize(),
+		       success : function(data, statut){ // code_html contient le HTML renvoyé
+		            submitFormMailchimpResponse(data);
+					$('input',$form).prop('disabled',false);
+		       },
+		       error : function(){
+					$('input',$form).prop('disabled',false);
+					$('.response-newsletter .response-action').html('Une erreur est survenue lors de l\'inscription à la newsletter.');
+		       }
+		    });
+			$('input',$form).prop('disabled',true);
+			return false;
+		});
+
+		function submitFormMailchimpResponse(dataJson){
+			var response = $.parseJSON( dataJson );
+			var msgSuccess = "Votre inscription à la newsletter a été bien effectuée.";
+			var msgError = "Une erreur est survenue lors de l'inscription à la newsletter. Si vous vous n'êtes pas inscrit précédement entrez un email valide.";
+			if(response.success==1){
+				$('.response-newsletter .response-action').html(msgSuccess);
+			}else{
+				$('.response-newsletter .response-action').html(msgError);
+
+			}
+			$('.response-newsletter').modal('show');
+		}
+	});
+
+
+	</script>
+{% endblock %}
+{% block sonata_page_asset_footer %}
+	{{ parent() }}          
+{% endblock %}
+
+

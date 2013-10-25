@@ -1,0 +1,25 @@
+parameters:
+#    nico_mailchimp.example.class: Nico\MailchimpBundle\Example
+
+services:
+#    nico_mailchimp.example:
+#        class: %nico_mailchimp.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+  nico.mailchimp.block.mailchimp:
+    class: Nico\MailchimpBundle\Block\Service\MailchimpBlockService
+    arguments: [nico.mailchimp.block.mailchimp,@templating,@service_container]
+    tags:
+      - { name: sonata.block}
+
+  nico.mailchimp.controller.bloc:
+    class: Nico\MailchimpBundle\Controller\BlocController
+    arguments: [@service_container]
+
+  nico.mailchimp.listener:
+    class: Nico\MailchimpBundle\Listener\MailchimpListener
+    arguments: [@service_container]
+    tags:
+      - { name: kernel.event_listener, event: nico.mailchimp.save_to_mailchimp,   method: onSaveToMailchimp }
+  
+  nico.mailchimp.configuration:
+    class: Nico\MailchimpBundle\DependencyInjection\NicoMailchimpExtension

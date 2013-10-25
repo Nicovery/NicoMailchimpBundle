@@ -1,0 +1,25 @@
+{
+    "name": "nico/mailchimp-bundle",
+    "type": "symfony-bundle",
+    "description": "Mailchimp",
+    "keywords": ["form","mailchimp"],
+    "homepage": "https://github.com/Nikoalas/NicoMailchimpBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas LUDOVIC",
+            "email": "nicolas.ludovic@gmail.com",
+            "homepage": "http://lepetitcodeur.fr/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "sonata-project/block-bundle": "2.2.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Nikoalas": ""
+        }
+    }
+}
